@@ -190,10 +190,12 @@
         font-size: 44px;
         color: #0b0b0b;
         line-height: 1.1;
+        overflow-wrap: anywhere;
       }
       .subtitle {
         color: #333;
         max-width: 600px;
+        overflow-wrap: anywhere;
       }
 
       .carousel-wrapper {
@@ -216,6 +218,7 @@
         overflow: hidden;
         border-radius: 18px;
         background: transparent;
+        touch-action: pan-y;
       }
 
       .carousel-track {
@@ -283,24 +286,6 @@
         background: transparent;
       }
 
-      .card img.zoom-image {
-        object-fit: cover;
-        background: transparent;
-        transform: scale(1.14);
-      }
-
-      .card img.zoom-soft {
-        object-fit: cover;
-        background: transparent;
-        transform: scale(1.06);
-      }
-
-      .card:hover img.zoom-image {
-        transform: scale(1.24);
-      }
-      .card:hover img.zoom-soft {
-        transform: scale(1.14);
-      }
       .card:hover img {
         transform: scale(1.08);
       }
@@ -310,6 +295,7 @@
         font-size: 18px;
         line-height: 1.6;
         color: #2b2b2b;
+        word-break: break-word;
       }
 
       .heart-badge {
@@ -386,6 +372,16 @@
         align-items: center;
         gap: 8px;
         margin-top: 16px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding: 4px 6px 2px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+      }
+
+      .carousel-dots::-webkit-scrollbar {
+        display: none;
       }
 
       .dot {
@@ -396,6 +392,7 @@
         border: none;
         cursor: pointer;
         transition: all 0.25s ease;
+        flex: 0 0 auto;
       }
 
       .dot.active {
@@ -446,11 +443,13 @@
 
         .title {
           font-size: 38px;
+          text-align: center;
         }
 
         .subtitle {
           font-size: 14px;
           line-height: 1.5;
+          text-align: center;
         }
 
         .carousel-wrapper {
@@ -464,9 +463,14 @@
           height: clamp(210px, 58vw, 280px);
         }
 
+        .card:hover img {
+          transform: none;
+        }
+
         .card-body {
           font-size: 16px;
           padding: 12px;
+          line-height: 1.5;
         }
 
         .heart-badge {
@@ -987,8 +991,67 @@
         ],
       };
 
+      const sectionMeta = {
+        memory: {
+          title: "Memory Lane",
+          subtitle:
+            "Moments that slowly turned into memories I never want to forget.",
+        },
+        gallery: {
+          title: "Gallery",
+          subtitle: "A collection of our favorite frames, smiles, and stories.",
+        },
+        sitcoms: {
+          title: "Shows We Watched Together",
+          subtitle:
+            "From cozy nights to deep conversations, every watch felt better together.",
+        },
+        compatibility: {
+          title: "Cancer ♥ Leo",
+          subtitle: "Tender hearts and fiery love — our little cosmic balance.",
+        },
+        iloveyou: {
+          title: "I Love You",
+          subtitle: "Simple words, forever feeling. ♥",
+        },
+      };
+
       let activeSection = "memory";
       let currentSlide = 0;
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      function initCarouselTouch() {
+        const carousel = document.getElementById("contentCarousel");
+        if (!carousel || carousel.dataset.touchBound === "true") return;
+
+        carousel.addEventListener(
+          "touchstart",
+          (e) => {
+            touchStartX = e.changedTouches[0].clientX;
+          },
+          { passive: true },
+        );
+
+        carousel.addEventListener(
+          "touchend",
+          (e) => {
+            touchEndX = e.changedTouches[0].clientX;
+            const delta = touchEndX - touchStartX;
+            const threshold = 40;
+
+            if (Math.abs(delta) < threshold) return;
+            if (delta < 0) {
+              stepSlide(1);
+            } else {
+              stepSlide(-1);
+            }
+          },
+          { passive: true },
+        );
+
+        carousel.dataset.touchBound = "true";
+      }
 
       function render(section) {
         activeSection = section;
@@ -1016,27 +1079,7 @@
             item.img.includes("mem03.jpg") ||
             item.img.includes("mem05.jpg");
 
-          const shouldZoomInGallery =
-            section === "gallery" &&
-            (item.img.includes("IMG_0170.JPEG") ||
-              item.img.includes("IMG_0195.JPEG") ||
-              item.img.includes("IMG_0272.JPEG") ||
-              item.img.includes("IMG_0309.JPEG") ||
-              item.img.includes("IMG_9857.JPEG") ||
-              item.img.includes("IMG_9864.JPEG") ||
-              item.img.includes("IMG_9944.JPEG") ||
-              item.img.includes("IMG_9956.JPG") ||
-              item.img.includes("photboooth_us.jpg") ||
-              item.img.includes("kullufreshersparty.jpg"));
-
-          const shouldSoftZoomInGallery =
-            section === "gallery" && item.img.includes("IMG_0229.JPEG");
-
-          const imageClasses = [
-            shouldCover ? "cover-image" : "",
-            shouldZoomInGallery ? "zoom-image" : "",
-            shouldSoftZoomInGallery ? "zoom-soft" : "",
-          ]
+          const imageClasses = [shouldCover ? "cover-image" : ""]
             .filter(Boolean)
             .join(" ");
 
@@ -1064,6 +1107,7 @@
         });
 
         carousel.appendChild(track);
+        initCarouselTouch();
         updateCarousel();
       }
 
@@ -1087,6 +1131,15 @@
         document.querySelectorAll("#carouselDots .dot").forEach((dot, i) => {
           dot.classList.toggle("active", i === currentSlide);
         });
+
+        const activeDot = document.querySelector(
+          `#carouselDots .dot:nth-child(${currentSlide + 1})`,
+        );
+        activeDot?.scrollIntoView({
+          inline: "center",
+          block: "nearest",
+          behavior: "smooth",
+        });
       }
 
       function showSection(name, btn) {
@@ -1094,7 +1147,14 @@
           .querySelectorAll(".nav-btn")
           .forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
-        document.getElementById("sectionTitle").textContent = btn.textContent;
+
+        const meta = sectionMeta[name] || {
+          title: btn.textContent,
+          subtitle: "",
+        };
+
+        document.getElementById("sectionTitle").textContent = meta.title;
+        document.getElementById("sectionSubtitle").textContent = meta.subtitle;
         setHeartIntensity(name === "iloveyou");
         render(name);
       }
