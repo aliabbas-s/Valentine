@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>For Shifa — Our Memory Lane</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --red: #d62839;
+        --dark-red: #7f1d1d;
+        --soft-red: #f8b4b4;
+        --black: #0b0b0b;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter;
+        background: linear-gradient(135deg, #e57373, var(--dark-red));
+        overflow-x: hidden;
+      }
+
+      /* HEART BACKGROUND */
+      .heart-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+      }
+      .floating-heart {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.85);
+        animation: floatUp 7s linear forwards;
+      }
+
+      @keyframes floatUp {
+        from {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(-120vh);
+          opacity: 0;
+        }
+      }
+
+      /* ENTRY + SUCCESS */
+      .romantic-screen {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          circle at center,
+          #f4978e 0%,
+          #c1121f 60%,
+          #6a040f 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        color: white;
+        padding: 24px;
+        z-index: 9999;
+      }
+
+      .glow-heart {
+        font-size: 60px;
+        margin-bottom: 10px;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.12);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .romantic-title {
+        font-family: "Great Vibes";
+        font-size: 58px;
+        margin-bottom: 8px;
+      }
+      .romantic-text {
+        font-family: "Playfair Display";
+        font-size: 19px;
+        max-width: 560px;
+        line-height: 1.7;
+        margin-bottom: 26px;
+      }
+
+      .btn {
+        padding: 14px 28px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        margin: 10px;
+        font-size: 16px;
+        transition: 0.25s;
+      }
+      .yes {
+        background: white;
+        color: var(--dark-red);
+        font-weight: 700;
+      }
+      .yes:hover {
+        transform: scale(1.08);
+      }
+      .no {
+        background: #111;
+        color: white;
+        position: relative;
+      }
+
+      /* MAIN APP */
+      .app {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        min-height: 100vh;
+        position: relative;
+        z-index: 1;
+      }
+      .sidebar {
+        background: #111;
+        color: white;
+        padding: 28px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+      }
+      .logo {
+        font-family: "Great Vibes";
+        font-size: 32px;
+        color: #ffccd2;
+      }
+
+      .nav-btn {
+        background: transparent;
+        border: none;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .nav-btn:hover,
+      .nav-btn.active {
+        background: linear-gradient(90deg, var(--red), var(--dark-red));
+      }
+
+      .main {
+        padding: 36px;
+        max-width: 980px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .title {
+        font-family: "Great Vibes";
+        font-size: 44px;
+        color: #0b0b0b;
+      }
+      .subtitle {
+        color: #333;
+        max-width: 600px;
+      }
+
+      .carousel-wrapper {
+        margin-top: 24px;
+        position: relative;
+        padding: 16px 74px 20px;
+        border-radius: 24px;
+        max-width: 820px;
+        margin-left: auto;
+        margin-right: auto;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.18),
+          rgba(255, 255, 255, 0.08)
+        );
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .carousel {
+        overflow: hidden;
+        border-radius: 18px;
+        background: transparent;
+      }
+
+      .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+
+      .carousel-slide {
+        min-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        transition:
+          transform 0.35s ease,
+          box-shadow 0.35s ease,
+          opacity 0.6s ease;
+        position: relative;
+        opacity: 0;
+        transform: translateY(18px);
+        width: min(640px, 100%);
+      }
+
+      .card.appear {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .card:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+      }
+
+      .card img {
+        width: 100%;
+        height: 260px;
+        object-fit: contain;
+        object-position: center;
+        background: #121212;
+        transition: transform 0.6s ease;
+      }
+
+      .card video {
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+        background: #121212;
+        display: block;
+      }
+
+      .card video.zoom-out-video {
+        object-fit: contain;
+        background: #0f0f0f;
+      }
+
+      .card img.cover-image {
+        object-fit: cover;
+        background: transparent;
+      }
+
+      .card img.zoom-image {
+        object-fit: cover;
+        background: transparent;
+        transform: scale(1.14);
+      }
+
+      .card img.zoom-soft {
+        object-fit: cover;
+        background: transparent;
+        transform: scale(1.06);
+      }
+
+      .card:hover img.zoom-image {
+        transform: scale(1.24);
+      }
+      .card:hover img.zoom-soft {
+        transform: scale(1.14);
+      }
+      .card:hover img {
+        transform: scale(1.08);
+      }
+      .card-body {
+        padding: 16px;
+        font-family: "Playfair Display";
+        font-size: 18px;
+        line-height: 1.6;
+        color: #2b2b2b;
+      }
+
+      .heart-badge {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        background: white;
+        border-radius: 999px;
+        padding: 6px 8px;
+        color: var(--red);
+      }
+
+      .audio-btn {
+        background: linear-gradient(90deg, var(--red), var(--dark-red));
+        border: none;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: rgba(18, 18, 18, 0.86);
+        backdrop-filter: blur(4px);
+        color: #ffffff;
+        font-size: 34px;
+        font-family: "Segoe UI Symbol", Inter, sans-serif;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 0.9;
+        cursor: pointer;
+        z-index: 8;
+        box-shadow: 0 8px 14px rgba(0, 0, 0, 0.25);
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .carousel-btn:hover {
+        background: linear-gradient(90deg, var(--red), var(--dark-red));
+        box-shadow: 0 12px 22px rgba(0, 0, 0, 0.3);
+      }
+
+      .carousel-btn span {
+        transform: translateY(-1px);
+      }
+
+      .carousel-btn:active {
+        transform: translateY(-50%) scale(0.96);
+      }
+
+      .carousel-btn.prev {
+        left: 14px;
+      }
+
+      .carousel-btn.next {
+        right: 14px;
+      }
+
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 999px;
+        background: rgba(17, 17, 17, 0.3);
+        border: none;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .dot.active {
+        background: linear-gradient(90deg, var(--red), var(--dark-red));
+        width: 30px;
+      }
+
+      @media (max-width: 768px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+          height: auto;
+        }
+
+        .carousel-wrapper {
+          padding: 12px 56px 16px;
+          max-width: 100%;
+        }
+
+        .card img {
+          height: 210px;
+        }
+
+        .carousel-btn {
+          width: 46px;
+          height: 46px;
+          font-size: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="heart-bg" id="heartBg"></div>
+
+    <!-- ENTRY SCREEN -->
+    <div class="romantic-screen" id="entryScreen">
+      <div class="glow-heart">♥</div>
+      <div class="romantic-title">Shifa…</div>
+      <div class="romantic-text">
+        Every moment with you feels softer, warmer, and more meaningful. You
+        turned ordinary days into memories I never want to lose.
+      </div>
+      <div class="romantic-title" style="font-size: 48px">
+        Will you be my Valentine?
+      </div>
+      <div>
+        <button class="btn yes" id="yesBtn">Yes, always ♥</button>
+        <button class="btn no" id="noBtn">No</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS SCREEN -->
+    <div class="romantic-screen" id="successScreen" style="display: none">
+      <div class="glow-heart">♥</div>
+      <div class="romantic-title">Happy Valentine's Day</div>
+      <div class="romantic-text">
+        With you, even silence feels comforting. Every laugh, every
+        conversation, every memory with you is precious to me. Let’s walk down
+        our memory lane together.
+      </div>
+      <button class="btn yes" onclick="enterSite()">
+        Start Our Memory Lane
+      </button>
+    </div>
+
+    <div class="app" id="app" style="display: none">
+      <div class="sidebar">
+        <div class="logo">Shifa ♥</div>
+
+        <button class="nav-btn active" onclick="showSection('memory', this)">
+          Memory Lane
+        </button>
+        <button class="nav-btn" onclick="showSection('gallery', this)">
+          Gallery
+        </button>
+        <button class="nav-btn" onclick="showSection('sitcoms', this)">
+          Shows We Watched Together
+        </button>
+        <button class="nav-btn" onclick="showSection('compatibility', this)">
+          Cancer ♥ Leo
+        </button>
+        <button class="nav-btn" onclick="showSection('iloveyou', this)">
+          I Love You
+        </button>
+
+        <div style="margin-top: auto">
+          <button id="playBtn" class="audio-btn">Play Perfect</button>
+        </div>
+      </div>
+
+      <div class="main">
+        <div class="title" id="sectionTitle">Memory Lane</div>
+        <div class="subtitle" id="sectionSubtitle">
+          Moments that slowly turned into memories I never want to forget.
+        </div>
+        <div class="carousel-wrapper">
+          <button
+            class="carousel-btn prev"
+            onclick="stepSlide(-1)"
+            aria-label="Previous slide"
+          >
+            <span>&lsaquo;</span>
+          </button>
+          <div id="contentCarousel" class="carousel"></div>
+          <button
+            class="carousel-btn next"
+            onclick="stepSlide(1)"
+            aria-label="Next slide"
+          >
+            <span>&rsaquo;</span>
+          </button>
+        </div>
+        <div id="carouselDots" class="carousel-dots"></div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+
+    <script>
+      /* AUDIO */
+      const introSound = new Audio(
+        "assets/songs/Aankhein Khuli - Mohabbatein 128 Kbps.mp3",
+      );
+      introSound.loop = true;
+      introSound.volume = 0.2;
+      introSound.preload = "auto";
+      introSound.autoplay = true;
+      let introAllowed = true;
+
+      function tryPlayIntro() {
+        if (!introAllowed) return;
+        introSound.play().catch(() => {});
+      }
+
+      // Start automatically as soon as link/site opens (no click trigger)
+      tryPlayIntro();
+      window.addEventListener("DOMContentLoaded", tryPlayIntro, { once: true });
+      window.addEventListener("load", tryPlayIntro, { once: true });
+      // Browser fallback: start as soon as any first interaction happens
+      document.addEventListener("pointerdown", tryPlayIntro, { once: true });
+      document.addEventListener("keydown", tryPlayIntro, { once: true });
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && introSound.paused) tryPlayIntro();
+      });
+
+      const sound = new Howl({
+        src: [
+          "assets/songs/Ed Sheeran - Perfect (Official Music Video) - Ed Sheeran.mp3",
+        ],
+        html5: true,
+        volume: 0.2,
+        loop: true,
+      });
+      const playBtn = document.getElementById("playBtn");
+
+      playBtn.onclick = () => {
+        if (sound.playing()) {
+          sound.pause();
+          playBtn.textContent = "Play Perfect";
+        } else {
+          sound.play();
+          playBtn.textContent = "Pause Perfect";
+        }
+      };
+
+      /* HEART BACKGROUND */
+      function spawnHeart() {
+        const h = document.createElement("div");
+        h.className = "floating-heart";
+        h.innerHTML = "♥";
+        h.style.left = Math.random() * 100 + "%";
+        h.style.bottom = "-20px";
+        h.style.fontSize = 14 + Math.random() * 28 + "px";
+        document.getElementById("heartBg").appendChild(h);
+        setTimeout(() => h.remove(), 7000);
+      }
+
+      let heartInterval = null;
+      function setHeartIntensity(isLoveSection) {
+        if (heartInterval) clearInterval(heartInterval);
+
+        heartInterval = setInterval(
+          () => {
+            spawnHeart();
+            if (isLoveSection) {
+              spawnHeart();
+              spawnHeart();
+            }
+          },
+          isLoveSection ? 110 : 350,
+        );
+      }
+
+      setHeartIntensity(false);
+
+      /* ENTRY SCREEN */
+      const noBtn = document.getElementById("noBtn");
+      noBtn.addEventListener("mouseenter", () => {
+        noBtn.style.position = "absolute";
+        noBtn.style.left = Math.random() * 80 + "%";
+        noBtn.style.top = Math.random() * 80 + "%";
+      });
+
+      document.getElementById("yesBtn").onclick = () => {
+        document.getElementById("entryScreen").style.display = "none";
+        document.getElementById("successScreen").style.display = "flex";
+      };
+
+      function enterSite() {
+        document.getElementById("successScreen").style.display = "none";
+        document.getElementById("app").style.display = "grid";
+
+        introAllowed = false;
+
+        if (!introSound.paused) {
+          introSound.pause();
+          introSound.currentTime = 0;
+        }
+
+        if (!sound.playing()) {
+          sound.play();
+          playBtn.textContent = "Pause Perfect";
+        }
+        render("memory");
+      }
+
+      /* CONTENT DATA */
+      const sections = {
+        memory: [
+          {
+            img: "IMG_0553.jpeg",
+            text: "",
+          },
+          {
+            img: "assets/photos/mem01.jpg",
+            text: "",
+          },
+          {
+            img: "assets/videos/IMG_0029.MP4",
+            text: "",
+          },
+          {
+            img: "assets/photos/mem03.jpg",
+            text: "",
+          },
+
+          {
+            img: "assets/videos/IMG_8927.MP4",
+            text: "",
+          },
+
+          {
+            img: "assets/photos/border2.jpg",
+            text: "Watching Border 2 together — one of our special movie dates.",
+          },
+
+          {
+            img: "assets/photos/us01.jpg",
+            text: "",
+          },
+          {
+            img: "assets/photos/mem05.jpg",
+            text: "",
+          },
+          {
+            img: "assets/photos/mem06.jpg",
+            text: "",
+          },
+          {
+            img: "assets/photos/us02.jpg",
+            text: "",
+          },
+        ],
+
+        gallery: [
+          {
+            img: "assets/photos/photboooth_us.jpg",
+            text: "Photobooth smiles and a heart full of you.",
+          },
+          {
+            img: "assets/photos/FullSizeRender.jpg",
+            text: "You looked at me and everything felt softer.",
+          },
+          {
+            img: "assets/photos/IMG_0170.JPEG",
+            text: "One smile from you, and my whole day lit up.",
+          },
+          {
+            img: "assets/photos/IMG_0178.JPEG",
+            text: "A tiny moment, but it still lives in my heart.",
+          },
+          {
+            img: "assets/photos/IMG_0195.JPEG",
+            text: "You make ordinary places feel magical.",
+          },
+          {
+            img: "assets/photos/IMG_0196.JPEG",
+            text: "Every frame with you feels like a love letter.",
+          },
+          {
+            img: "assets/photos/IMG_0229.JPEG",
+            text: "This one feels like peace wrapped in a memory.",
+          },
+          {
+            img: "assets/photos/IMG_0256.JPEG",
+            text: "You and me, exactly where I want to be.",
+          },
+          {
+            img: "assets/photos/IMG_0271.JPEG",
+            text: "A simple picture, a forever feeling.",
+          },
+          {
+            img: "assets/photos/IMG_0272.JPEG",
+            text: "Your laughter is my favorite background music.",
+          },
+          {
+            img: "assets/photos/IMG_0280.JPEG",
+            text: "I keep coming back to this memory of us.",
+          },
+          {
+            img: "assets/photos/IMG_0287.JPEG",
+            text: "Your presence makes everything warmer.",
+          },
+          {
+            img: "assets/photos/IMG_0309.JPEG",
+            text: "My heart still pauses at this smile.",
+          },
+          {
+            img: "assets/photos/IMG_1984.JPEG",
+            text: "Love looks a lot like this moment.",
+          },
+          {
+            img: "assets/photos/IMG_9661.PNG",
+            text: "Even this quiet second feels unforgettable.",
+          },
+          {
+            img: "assets/photos/IMG_9857.JPEG",
+            text: "You make my world gentler and brighter.",
+          },
+          {
+            img: "assets/photos/IMG_9863.JPEG",
+            text: "Another memory I hold close to my chest.",
+          },
+          {
+            img: "assets/photos/IMG_9864.JPEG",
+            text: "This is what comfort in love feels like.",
+          },
+          {
+            img: "assets/photos/IMG_9873.JPEG",
+            text: "With you, even silence feels sweet.",
+          },
+          {
+            img: "assets/photos/IMG_9942.JPEG",
+            text: "A glance like this stays with me forever.",
+          },
+          {
+            img: "assets/photos/IMG_9943.JPEG",
+            text: "I found home in your eyes.",
+          },
+          {
+            img: "assets/photos/IMG_9944.JPEG",
+            text: "You are my favorite chapter, every single day.",
+          },
+          {
+            img: "assets/photos/IMG_9945.JPEG",
+            text: "This memory still gives me butterflies.",
+          },
+          {
+            img: "assets/photos/IMG_9956.JPG",
+            text: "A sweet little frame from our love story.",
+          },
+          {
+            img: "assets/photos/IMG_9980.JPG",
+            text: "Every picture of us feels like a promise.",
+          },
+          {
+            img: "assets/photos/IMG_9996.JPEG",
+            text: "You are my calm, my joy, my always.",
+          },
+          {
+            img: "assets/photos/kullufreshersparty.jpg",
+            text: "One beautiful night, made perfect by you.",
+          },
+          {
+            img: "assets/photos/mem04.jpg",
+            text: "A memory that still feels brand new.",
+          },
+          {
+            img: "assets/photos/nobodywants this.jpg",
+            text: "Just us, and a little bit of magic.",
+          },
+          {
+            img: "assets/photos/ticketskullushow.jpg",
+            text: "Our date tickets, and a memory I treasure.",
+          },
+          {
+            img: "assets/photos/mem07.png",
+            text: "One more moment I never want to lose.",
+          },
+        ],
+
+        sitcoms: [
+          {
+            img: "assets/photos/some/bridg04.webp",
+            text: "Bridgerton vibes, royal drama, and us reacting together the whole time.",
+          },
+          {
+            img: "assets/photos/some/bridge02.webp",
+            text: "Another Bridgerton night — elegance, chaos, and your cutest commentary.",
+          },
+          {
+            img: "assets/photos/some/deadpoet.webp",
+            text: "Dead Poets Society moments that made us pause, feel, and talk for hours.",
+          },
+          {
+            img: "assets/photos/some/dil.webp",
+            text: "Bollywood romance feels better when I watch it with you by my side.",
+          },
+          {
+            img: "assets/photos/some/nobody.jpg",
+            text: "Nobody Wants This-style comfort watch nights — just us, snacks, and smiles.",
+          },
+        ],
+
+        compatibility: [
+          {
+            img: "assets/photos/cancer.jpg",
+            text: "Cancer loves with deep emotion, loyalty, and a heart that remembers every little detail.",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1200&q=80",
+            text: "Leo shines with confidence, warmth, and a bold love that makes every day feel special.",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=1200&q=80",
+            text: "Cancer finds comfort in emotional security and gentle closeness.",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=1200&q=80",
+            text: "Leo brings passion, courage, and the spark that keeps love exciting.",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80",
+            text: "Together, Cancer's tenderness and Leo's fire create a rare, beautiful balance.",
+          },
+          {
+            img: "assets/photos/couple01.jpg",
+            text: "Cancer and Leo together can turn ordinary moments into unforgettable memories.",
+          },
+          {
+            img: "assets/photos/couple02.jpg",
+            text: "Cancer nurtures the relationship while Leo protects it with full-hearted devotion.",
+          },
+          {
+            img: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1200&q=80",
+            text: "When trust is strong, Cancer ♥ Leo becomes deeply romantic, passionate, and lasting.",
+          },
+        ],
+
+        iloveyou: [
+          {
+            img: "assets/love/IMG_0553.jpeg",
+            text: "I love you ♥",
+          },
+        ],
+      };
+
+      let activeSection = "memory";
+      let currentSlide = 0;
+
+      function render(section) {
+        activeSection = section;
+        currentSlide = 0;
+
+        const carousel = document.getElementById("contentCarousel");
+        const dotsWrap = document.getElementById("carouselDots");
+        carousel.innerHTML = "";
+        dotsWrap.innerHTML = "";
+
+        const items = sections[section] || [];
+        const track = document.createElement("div");
+        track.className = "carousel-track";
+
+        items.forEach((item, index) => {
+          const slide = document.createElement("div");
+          slide.className = "carousel-slide";
+
+          const card = document.createElement("div");
+          card.className = "card";
+
+          const shouldCover =
+            item.img.includes("mem01.jpg") ||
+            item.img.includes("mem02.jpg") ||
+            item.img.includes("mem03.jpg") ||
+            item.img.includes("mem05.jpg");
+
+          const shouldZoomInGallery =
+            section === "gallery" &&
+            (item.img.includes("IMG_0170.JPEG") ||
+              item.img.includes("IMG_0195.JPEG") ||
+              item.img.includes("IMG_0272.JPEG") ||
+              item.img.includes("IMG_0309.JPEG") ||
+              item.img.includes("IMG_9857.JPEG") ||
+              item.img.includes("IMG_9864.JPEG") ||
+              item.img.includes("IMG_9944.JPEG") ||
+              item.img.includes("IMG_9956.JPG") ||
+              item.img.includes("photboooth_us.jpg") ||
+              item.img.includes("kullufreshersparty.jpg"));
+
+          const shouldSoftZoomInGallery =
+            section === "gallery" && item.img.includes("IMG_0229.JPEG");
+
+          const imageClasses = [
+            shouldCover ? "cover-image" : "",
+            shouldZoomInGallery ? "zoom-image" : "",
+            shouldSoftZoomInGallery ? "zoom-soft" : "",
+          ]
+            .filter(Boolean)
+            .join(" ");
+
+          const isVideo = /\.(mp4|mov|webm)$/i.test(item.img || "");
+          const isSecondMemoryVideo = item.img.includes("IMG_8927.MP4");
+          const mediaHtml = isVideo
+            ? `<video class="${isSecondMemoryVideo ? "zoom-out-video" : ""}" src="${item.img}" controls preload="metadata"></video>`
+            : `<img class="${imageClasses}" src="${item.img}" alt="memory">`;
+
+          card.innerHTML = `
+      <div class="heart-badge">♥</div>
+      ${mediaHtml}
+      <div class="card-body">${item.text}</div>
+    `;
+
+          slide.appendChild(card);
+          track.appendChild(slide);
+
+          const dot = document.createElement("button");
+          dot.className = "dot";
+          dot.onclick = () => goToSlide(index);
+          dotsWrap.appendChild(dot);
+
+          setTimeout(() => card.classList.add("appear"), index * 60);
+        });
+
+        carousel.appendChild(track);
+        updateCarousel();
+      }
+
+      function goToSlide(index) {
+        const items = sections[activeSection] || [];
+        if (!items.length) return;
+        currentSlide = (index + items.length) % items.length;
+        updateCarousel();
+      }
+
+      function stepSlide(step) {
+        goToSlide(currentSlide + step);
+      }
+
+      function updateCarousel() {
+        const track = document.querySelector(".carousel-track");
+        if (!track) return;
+
+        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+        document.querySelectorAll("#carouselDots .dot").forEach((dot, i) => {
+          dot.classList.toggle("active", i === currentSlide);
+        });
+      }
+
+      function showSection(name, btn) {
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("sectionTitle").textContent = btn.textContent;
+        setHeartIntensity(name === "iloveyou");
+        render(name);
+      }
+    </script>
+  </body>
+</html>
