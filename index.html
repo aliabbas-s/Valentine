@@ -189,6 +189,7 @@
         font-family: "Great Vibes";
         font-size: 44px;
         color: #0b0b0b;
+        line-height: 1.1;
       }
       .subtitle {
         color: #333;
@@ -418,23 +419,25 @@
         }
 
         .nav-scroll {
-          flex-direction: row;
-          overflow-x: auto;
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 8px;
-          padding-bottom: 4px;
-          scrollbar-width: thin;
         }
 
         .nav-btn {
-          flex: 0 0 auto;
-          white-space: nowrap;
-          padding: 10px 14px;
-          border-radius: 999px;
+          width: 100%;
+          white-space: normal;
+          padding: 10px 12px;
+          border-radius: 12px;
           font-size: 14px;
+          line-height: 1.3;
+          text-align: center;
+          min-height: 48px;
         }
 
         .logo {
           font-size: 28px;
+          text-align: center;
         }
 
         .main {
@@ -451,14 +454,14 @@
         }
 
         .carousel-wrapper {
-          padding: 10px 46px 14px;
+          padding: 10px 10px 62px;
           max-width: 100%;
           border-radius: 18px;
         }
 
         .card img,
         .card video {
-          height: 190px;
+          height: clamp(210px, 58vw, 280px);
         }
 
         .card-body {
@@ -476,14 +479,26 @@
           width: 40px;
           height: 40px;
           font-size: 25px;
+          top: auto;
+          bottom: 10px;
+          transform: none;
+        }
+
+        .carousel-btn:active {
+          transform: scale(0.96);
         }
 
         .carousel-btn.prev {
-          left: 5px;
+          left: calc(50% - 48px);
         }
 
         .carousel-btn.next {
-          right: 5px;
+          right: calc(50% - 48px);
+        }
+
+        .audio-btn {
+          width: 100%;
+          min-height: 44px;
         }
       }
 
@@ -507,7 +522,25 @@
         }
 
         .carousel-wrapper {
-          padding: 8px 42px 12px;
+          padding: 8px 8px 56px;
+        }
+
+        .carousel-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 22px;
+        }
+
+        .carousel-btn.prev {
+          left: calc(50% - 44px);
+        }
+
+        .carousel-btn.next {
+          right: calc(50% - 44px);
+        }
+
+        .nav-scroll {
+          grid-template-columns: 1fr;
         }
 
         .dot {
